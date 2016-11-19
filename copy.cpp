@@ -7,10 +7,7 @@ Copy::Copy(QObject *parent) : QObject(parent)
 
 void Copy::run()
 {
-    // Add your main code here
-
-
-    qDebug() << "ExamStealer !" << endl;
+    qDebug() << "FilesCopyCat !" << endl;
     QElapsedTimer timer;
     timer.start();
     //scanDir(QDir::homePath());//Scan directory in 24396 milliseconds (depend on file amount it can increase)
