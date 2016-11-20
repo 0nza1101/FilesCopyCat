@@ -10,4 +10,4 @@ A program that scans a directory recursively for document extension and copy fou
 - *.pdf
 - *.odt
 
-[Download](https://pages.github.com/).
+[Download](https://github.com/0nza1101/FilesCopyCat/releases)
