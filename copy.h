@@ -24,8 +24,7 @@ private:
 
 public:
     explicit Copy(QObject *parent = 0);
-    void scanDir(QDir dir);//1st
-    void _scanDir(QString dir);//2st
+    void scanDir(QString dir);
     bool copyFileToRoot(QString sourceFilePath, QString fileName);
     bool copy_dir_recursive(QString from_dir, QString to_dir, bool replace_on_conflit);
     bool copyDirToRoot(QString sourceDir);

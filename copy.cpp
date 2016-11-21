@@ -10,40 +10,17 @@ void Copy::run()
     qDebug() << "FilesCopyCat !" << endl;
     QElapsedTimer timer;
     timer.start();
-    //scanDir(QDir::homePath());//Scan directory in 24396 milliseconds (depend on file amount it can increase)
-    _scanDir(QDir::homePath()); //Scan directory in 2998 milliseconds (depend on file amount) (C:\Users\%USERMANE%\)
-    //_scanDir(QDir::rootPath()); // (C:\)
+    scanDir(QDir::homePath()); //(C:\Users\%USERMANE%\)
+    //scanDir(QDir::rootPath()); // (C:\)
     qDebug() << "The operation took " << timer.elapsed() << "milliseconds";
     quit();//Quit
 }
 
-void Copy::scanDir(QDir dir)
-{
-    dir.setNameFilters(QStringList("*.exe") << "*.docx" << ".pdf");
-    dir.setFilter(QDir::Files | QDir::NoDotAndDotDot | QDir::NoSymLinks);
 
-    qDebug() << "Scanning: " << dir.path();
-
-    //Parcours
-    QFileInfoList fileList = dir.entryInfoList();
-    for (int i=0; i<fileList.count(); i++)
-    {
-        qDebug() << QTime::currentTime().toString() <<"Found file path: " << fileList[i].absoluteFilePath();
-        qDebug() << QTime::currentTime().toString() <<"Found file: " << fileList[i].fileName();
-    }
-
-    dir.setFilter(QDir::AllDirs | QDir::NoDotAndDotDot | QDir::NoSymLinks);
-    QStringList dirList = dir.entryList();
-    for (int i=0; i<dirList.size(); ++i)
-    {
-        QString newPath = QString("%1/%2").arg(dir.absolutePath()).arg(dirList.at(i));
-        scanDir(QDir(newPath));
-    }
-}
-
-void Copy::_scanDir(QString dir){
+void Copy::scanDir(QString dir){
     //Word - Powerpoint - Pdf Extension - Openoffice
-    QDirIterator it(dir, QStringList() << "*.doc"  << "*.docx" "*.docm" << "*.ppt" << "*.pptx" << "*.pptm" << "*.ppsx" << "*.ppsm"  << "*.sldx" << "*.pdf" << "*.odt", QDir::Files | QDir::NoDotAndDotDot | QDir::NoSymLinks, QDirIterator::Subdirectories);
+    //Using Qdir iterator is much faster
+    QDirIterator it(dir, QStringList() << "*.doc"  << "*.docx" << "*.docm" << "*.ppt" << "*.pptx" << "*.pptm" << "*.ppsx" << "*.ppsm"  << "*.sldx" << "*.pdf" << "*.odt", QDir::Files | QDir::NoDotAndDotDot | QDir::NoSymLinks, QDirIterator::Subdirectories);
 
     while (it.hasNext())
     {
