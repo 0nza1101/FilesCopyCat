@@ -21,6 +21,7 @@ class Copy : public QObject
 {
     Q_OBJECT
 private:
+    int m_fileCount;
 
 public:
     explicit Copy(QObject *parent = 0);

